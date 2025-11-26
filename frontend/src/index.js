@@ -32,9 +32,19 @@ root.render(
   <React.StrictMode>
     <ReactKeycloakProvider
       authClient={keycloak}
-      initOptions={{ onLoad: 'check-sso' }}
+      initOptions={{
+  onLoad: process.env.REACT_APP_DISABLE_AUTH === "true"
+    ? "disabled"
+    : "check-sso"
+}}
+
       onEvent={onKeycloakEvent}
-      LoadingComponent={<LoaderAutenticacion />}
+      LoadingComponent={
+  process.env.REACT_APP_DISABLE_AUTH === "true"
+    ? null
+    : <LoaderAutenticacion />
+}
+
     >
       <CartProvider>   
         <App />
